@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameDevWithMarco.Managers;
 using GameDevWithMarco.CameraStuff;
+using GameDevWithMarco.ObserverPattern;
 
 namespace GameDevWithMarco
 {
@@ -12,6 +13,9 @@ namespace GameDevWithMarco
         //I made this script to be reusablefrom anything that I want to be able
         //to collect coins, like the player and the axe.
         //</Summary>
+
+        //To notify anyone listening that a coin has been collected
+        [SerializeField] GameEvent coinCollected;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -23,6 +27,8 @@ namespace GameDevWithMarco
                 GameManager.Instance.AddToScore(coinValue);
                 //Destroys the coin
                 Destroy(collision.gameObject);
+                //Raises the event for any listeners to react to
+                coinCollected.Raise();
             }
         }
     }
